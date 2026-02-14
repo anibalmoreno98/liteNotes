@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.litenotes.controller.NoteFormController">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Nueva Nota" style="-fx-font-size: 18px;"/>
+
+    <TextField fx:id="titleField" promptText="Título"/>
+
+    <TextArea fx:id="contentArea" promptText="Contenido" prefRowCount="10"/>
+
+    <Button text="Guardar" onAction="#onSave"/>
+    <Button text="Cancelar" onAction="#onCancel"/>
+
+</VBox>

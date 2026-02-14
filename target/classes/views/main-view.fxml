@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.litenotes.controller.MainController"
+            prefWidth="600" prefHeight="400">
+
+    <top>
+        <Label text="LiteNotes"
+               style="-fx-font-size: 24px; -fx-padding: 20px;"/>
+    </top>
+
+    <center>
+        <ListView fx:id="notesList" />
+    </center>
+
+    <bottom>
+        <HBox spacing="10" style="-fx-padding: 10px;">
+            <Button text="Crear nota" onAction="#onCreateNote"/>
+            <Button text="Eliminar nota" onAction="#onDeleteNote"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

@@ -1,0 +1,8 @@
+com\litenotes\repository\Database.class
+com\litenotes\controller\NoteFormController.class
+com\litenotes\controller\MainController.class
+com\litenotes\service\NoteService.class
+com\litenotes\model\Note.class
+com\litenotes\App.class
+com\litenotes\controller\NoteEditController.class
+com\litenotes\repository\NoteRepository.class
