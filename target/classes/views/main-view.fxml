@@ -9,6 +9,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.litenotes.controller.MainController"
+            stylesheets="@../styles/style.css"
             prefWidth="600" prefHeight="400">
 
     <top>

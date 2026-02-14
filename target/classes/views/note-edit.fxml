@@ -7,8 +7,9 @@
 <VBox spacing="10"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.litenotes.controller.NoteEditController">
-
+      fx:controller="com.litenotes.controller.NoteEditController"
+      stylesheets="@../styles/style.css">
+      
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
