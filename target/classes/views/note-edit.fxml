@@ -19,6 +19,9 @@
 
     <TextArea fx:id="contentArea" promptText="Contenido" prefRowCount="10"/>
 
+    <Label text="Categoría:"/>
+    <ComboBox fx:id="categoryBox"/>
+
     <Button text="Guardar cambios" onAction="#onSave"/>
     <Button text="Cancelar" onAction="#onCancel"/>
 

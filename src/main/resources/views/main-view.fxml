@@ -2,7 +2,9 @@
 
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -10,16 +12,27 @@
             prefWidth="600" prefHeight="400">
 
     <top>
-        <Label text="LiteNotes"
-               style="-fx-font-size: 24px; -fx-padding: 20px;"/>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="20" right="20" bottom="10" left="20"/>
+            </padding>
+
+            <Label text="LiteNotes" style="-fx-font-size: 24px;"/>
+
+            <ComboBox fx:id="filterBox" promptText="Filtrar por categoría"/>
+        </VBox>
     </top>
 
     <center>
-        <ListView fx:id="notesList" />
+        <ListView fx:id="notesList"/>
     </center>
 
     <bottom>
-        <HBox spacing="10" style="-fx-padding: 10px;">
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
             <Button text="Crear nota" onAction="#onCreateNote"/>
             <Button text="Eliminar nota" onAction="#onDeleteNote"/>
         </HBox>

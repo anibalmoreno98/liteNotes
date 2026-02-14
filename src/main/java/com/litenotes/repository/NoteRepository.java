@@ -1,5 +1,6 @@
 package com.litenotes.repository;
 
+import com.litenotes.model.Category;
 import com.litenotes.model.Note;
 
 import java.sql.*;
@@ -8,35 +9,98 @@ import java.util.List;
 
 public class NoteRepository {
 
-    public NoteRepository() {
-        createTableIfNotExists();
-    }
+    // Obtener todas las notas con su categoría
+    public List<Note> getAll() {
+        List<Note> list = new ArrayList<>();
 
-    private void createTableIfNotExists() {
         String sql = """
-                CREATE TABLE IF NOT EXISTS notes (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title TEXT NOT NULL,
-                    content TEXT
-                );
-                """;
+            SELECT n.id, n.title, n.content, n.category_id,
+                   c.name AS category_name
+            FROM notes n
+            LEFT JOIN categories c ON n.category_id = c.id
+            ORDER BY n.id DESC
+        """;
 
         try (Connection conn = Database.getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Note note = new Note();
+                note.setId(rs.getInt("id"));
+                note.setTitle(rs.getString("title"));
+                note.setContent(rs.getString("content"));
+
+                Category category = new Category(
+                        rs.getInt("category_id"),
+                        rs.getString("category_name")
+                );
+
+                note.setCategory(category);
+
+                list.add(note);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return list;
     }
 
-    public void save(Note note) {
-        String sql = "INSERT INTO notes(title, content) VALUES(?, ?)";
+    // Obtener notas filtradas por categoría
+    public List<Note> getByCategory(int categoryId) {
+        List<Note> list = new ArrayList<>();
+
+        String sql = """
+            SELECT n.id, n.title, n.content, n.category_id,
+                   c.name AS category_name
+            FROM notes n
+            LEFT JOIN categories c ON n.category_id = c.id
+            WHERE n.category_id = ?
+            ORDER BY n.id DESC
+        """;
 
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
+            pstmt.setInt(1, categoryId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Note note = new Note();
+                note.setId(rs.getInt("id"));
+                note.setTitle(rs.getString("title"));
+                note.setContent(rs.getString("content"));
+
+                Category category = new Category(
+                        rs.getInt("category_id"),
+                        rs.getString("category_name")
+                );
+
+                note.setCategory(category);
+
+                list.add(note);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    // Crear nota
+    public void insert(Note note) {
+        String sql = "INSERT INTO notes (title, content, category_id) VALUES (?, ?, ?)";
+
+        try (Connection conn = Database.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
             pstmt.setString(1, note.getTitle());
             pstmt.setString(2, note.getContent());
+            pstmt.setInt(3, note.getCategory().getId());
+
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -44,29 +108,27 @@ public class NoteRepository {
         }
     }
 
-    public List<Note> findAll() {
-        List<Note> notes = new ArrayList<>();
-        String sql = "SELECT * FROM notes";
+
+    // Actualizar nota
+    public void update(Note note) {
+        String sql = "UPDATE notes SET title = ?, content = ?, category_id = ? WHERE id = ?";
 
         try (Connection conn = Database.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                notes.add(new Note(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("content")
-                ));
-            }
+            pstmt.setString(1, note.getTitle());
+            pstmt.setString(2, note.getContent());
+            pstmt.setInt(3, note.getCategory().getId());
+            pstmt.setInt(4, note.getId());
+
+            pstmt.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return notes;
     }
 
+    // Eliminar nota
     public void delete(int id) {
         String sql = "DELETE FROM notes WHERE id = ?";
 
@@ -74,22 +136,6 @@ public class NoteRepository {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void update(Note note) {
-        String sql = "UPDATE notes SET title = ?, content = ? WHERE id = ?";
-
-        try (Connection conn = Database.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, note.getTitle());
-            pstmt.setString(2, note.getContent());
-            pstmt.setInt(3, note.getId());
             pstmt.executeUpdate();
 
         } catch (SQLException e) {

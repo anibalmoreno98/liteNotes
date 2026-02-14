@@ -13,29 +13,44 @@ public class NoteService {
         this.repository = new NoteRepository();
     }
 
-    public void createNote(String title, String content) {
-        if (title == null || title.isBlank()) {
+    // Crear nota
+    public void createNote(Note note) {
+        if (note.getTitle() == null || note.getTitle().isBlank()) {
             throw new IllegalArgumentException("El título no puede estar vacío");
         }
 
-        Note note = new Note(title, content);
-        repository.save(note);
+        if (note.getCategory() == null) {
+            throw new IllegalArgumentException("La categoría no puede ser nula");
+        }
+
+        repository.insert(note);
     }
 
+    // Obtener todas las notas
     public List<Note> getAllNotes() {
-        return repository.findAll();
+        return repository.getAll();
     }
 
+    // Obtener notas filtradas por categoría
+    public List<Note> getNotesByCategory(int categoryId) {
+        return repository.getByCategory(categoryId);
+    }
+
+    // Eliminar nota
     public void deleteNote(int id) {
         repository.delete(id);
     }
 
+    // Actualizar nota
     public void updateNote(Note note) {
         if (note.getTitle() == null || note.getTitle().isBlank()) {
             throw new IllegalArgumentException("El título no puede estar vacío");
         }
 
+        if (note.getCategory() == null) {
+            throw new IllegalArgumentException("La categoría no puede ser nula");
+        }
+
         repository.update(note);
     }
-
 }

@@ -1,25 +1,34 @@
 package com.litenotes.model;
 
 public class Note {
+
     private int id;
     private String title;
     private String content;
+    private Category category;
 
     public Note() {}
 
-    public Note(int id, String title, String content) {
+    public Note(int id, String title, String content, Category category) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.category = category;
     }
 
-    public Note(String title, String content) {
+    public Note(String title, String content, Category category) {
         this.title = title;
         this.content = content;
+        this.category = category;
     }
 
+    // Getters y setters
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -36,6 +45,14 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
