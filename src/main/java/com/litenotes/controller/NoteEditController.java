@@ -11,6 +11,19 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * Controlador encargado de gestionar la ventana de edición de notas en la
+ * aplicación LiteNotes. Permite modificar el título, contenido y categoría
+ * de una nota existente, validando los datos antes de guardarlos.
+ *
+ * <p>Este controlador interactúa con {@link NoteService} para actualizar
+ * la nota en la base de datos y con {@link CategoryService} para cargar
+ * las categorías disponibles.</p>
+ *
+ * @author Aníbal
+ * @version 1.0
+ * @since 2026
+ */
 public class NoteEditController {
 
     @FXML
@@ -27,6 +40,12 @@ public class NoteEditController {
     private final NoteService noteService = new NoteService();
     private final CategoryService categoryService = new CategoryService();
 
+    /**
+     * Establece la nota que se va a editar y carga sus datos en los campos
+     * correspondientes de la interfaz.
+     *
+     * @param note La nota que se desea editar.
+     */
     public void setNote(Note note) {
         this.note = note;
 
@@ -35,11 +54,26 @@ public class NoteEditController {
         categoryBox.setValue(note.getCategory());
     }
 
+    /**
+     * Inicializa la ventana cargando todas las categorías disponibles
+     * en el ComboBox de selección.
+     */
     @FXML
     public void initialize() {
         categoryBox.getItems().addAll(categoryService.getAllCategories());
     }
 
+    /**
+     * Guarda los cambios realizados en la nota. Antes de actualizarla,
+     * se validan los campos obligatorios:
+     * <ul>
+     *   <li>El título no puede estar vacío.</li>
+     *   <li>Debe seleccionarse una categoría.</li>
+     * </ul>
+     *
+     * <p>Si los datos son válidos, la nota se actualiza mediante
+     * {@link NoteService#updateNote(Note)} y se cierra la ventana.</p>
+     */
     @FXML
     private void onSave() {
         if (titleField.getText().isBlank()) {
@@ -60,11 +94,18 @@ public class NoteEditController {
         closeWindow();
     }
 
+    /**
+     * Cancela la edición de la nota y cierra la ventana sin realizar cambios.
+     */
     @FXML
     private void onCancel() {
         closeWindow();
     }
 
+    /**
+     * Cierra la ventana actual obteniendo la referencia al {@link Stage}
+     * asociado al campo de texto del título.
+     */
     private void closeWindow() {
         Stage stage = (Stage) titleField.getScene().getWindow();
         stage.close();
