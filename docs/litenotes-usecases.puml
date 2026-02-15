@@ -1,0 +1,26 @@
+@startuml
+title LiteNotes - Diagrama de Casos de Uso
+
+actor Usuario
+
+rectangle "LiteNotes" {
+  
+  usecase "Crear nota" as UC_Crear
+  usecase "Editar nota" as UC_Editar
+  usecase "Eliminar nota" as UC_Eliminar
+  usecase "Ver notas" as UC_Ver
+  usecase "Filtrar notas por categoría" as UC_Filtrar
+  usecase "Crear categoría" as UC_CatCrear
+  usecase "Ver categorías" as UC_CatVer
+
+}
+
+Usuario --> UC_Ver
+Usuario --> UC_Crear
+Usuario --> UC_Editar
+Usuario --> UC_Eliminar
+Usuario --> UC_Filtrar
+Usuario --> UC_CatCrear
+Usuario --> UC_CatVer
+
+@enduml

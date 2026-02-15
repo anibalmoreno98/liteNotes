@@ -1,0 +1,74 @@
+@startuml
+title LiteNotes - Diagrama de Clases
+
+class Note {
+  - int id
+  - String title
+  - String content
+  - Category category
+}
+
+class Category {
+  - int id
+  - String name
+}
+
+class NoteRepository {
+  + List<Note> getAll()
+  + List<Note> getByCategory(int id)
+  + void save(Note note)
+  + void update(Note note)
+  + void delete(int id)
+}
+
+class CategoryRepository {
+  + List<Category> getAll()
+}
+
+class NoteService {
+  - NoteRepository repo
+  + List<Note> getAllNotes()
+  + List<Note> getNotesByCategory(int id)
+  + void createNote(Note note)
+  + void updateNote(Note note)
+  + void deleteNote(int id)
+}
+
+class CategoryService {
+  - CategoryRepository repo
+  + List<Category> getAllCategories()
+}
+
+class MainController {
+  - ListView<Note> notesList
+  - ComboBox<Category> filterBox
+}
+
+class NoteFormController {
+  - TextField titleField
+  - TextArea contentArea
+  - ComboBox<Category> categoryBox
+}
+
+class NoteEditController {
+  - TextField titleField
+  - TextArea contentArea
+  - ComboBox<Category> categoryBox
+  - Note note
+}
+
+NoteService --> NoteRepository
+CategoryService --> CategoryRepository
+
+MainController --> NoteService
+MainController --> CategoryService
+
+NoteFormController --> NoteService
+NoteFormController --> CategoryService
+
+NoteEditController --> NoteService
+NoteEditController --> CategoryService
+
+Note --> Category
+
+@enduml
